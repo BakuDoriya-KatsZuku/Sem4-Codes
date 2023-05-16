@@ -6,57 +6,42 @@ using namespace std;
 
 int32_t main(void)
 {
-	int frames = 0;
-	string s;
-	cout << "Number of Frames: ";
-	cin >> frames;
-	cout << "Input String: ";
-	cin >> s;
-	char a[frames];
-	unordered_set<char> se;
+    int frames = 0;
+    cout << "Number of frames: ";
+    cin >> frames;
+    string s;
+    cout << "Input String: ";
+    cin >> s;
 
-	int hit = 0;
-	int fault = 0;
-	int n = s.size();
-	int count = 0;
-	int x = 0;
-	while (count < n && x < frames)
-	{
-		if (se.find(s[count]) == se.end())
-		{
-			a[x] = s[count];
-			se.insert(s[count]);
-			fault++;
-			x++;
-		}
-		else
-		{
-			hit++;
-		}
-		count++;
-	}
+    unordered_set<char> se;
+    char a[frames];
 
-	if (count == n)
-	{
-		return 0;
-	}
+    int pointer = 0;
+    int n = s.size();
+    int fault = 0;
+    int hit = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (se.find(s[i]) == se.end())
+        {
+            fault++;
+            se.insert(s[i]);
+            if (se.size() < frames)
+            {
+                a[pointer] = s[i];
+                pointer = (pointer + 1) % frames;
+                continue;
+            }
 
-	int pointer = 0;
-	for (int i = count; i < n; i++)
-	{
-		if (se.find(s[i]) == se.end())
-		{
-		    se.erase(a[pointer]);
-			a[pointer] = s[i];
-			se.insert(s[i]);
-			pointer = (pointer + 1) % frames;
-			fault++;
-		}
-		else
-		{
-			hit++;
-		}
-	}
+            se.erase(a[pointer]);
+            a[pointer] = s[i];
+            pointer = (pointer + 1) % frames;
+        }
+        else
+        {
+            hit++;
+        }
+    }
 
-	cout << "\nHits: " << hit << "\nFaults: " << fault << "\n";
+    cout << "Faults: " << fault << "\nHits: " << hit << "\n";
 }
