@@ -25,9 +25,9 @@ int32_t main(void)
         if (se.find(s[i]) == se.end())
         {
             fault++;
-            se.insert(s[i]);
             if (se.size() < frames)
             {
+                se.insert(s[i]);
                 a[pointer] = s[i];
                 pointer = (pointer + 1) % frames;
                 continue;
